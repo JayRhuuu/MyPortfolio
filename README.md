@@ -1,126 +1,112 @@
-# Jay Platon - Full-Stack Developer Portfolio
+# Jay Platon Portfolio
 
-![Portfolio Banner](img/my-Img.png)
+![Portfolio Banner](assets/img/my-Img.png)
 
-A professional, responsive portfolio website showcasing web development expertise, UI/UX design skills, and programming projects. Built with modern web technologies and best practices for performance, accessibility, and SEO.
-
----
-
-## 📋 Table of Contents
-
-- [About Me](#about-me)
-- [Skills](#skills)
-- [Services](#services)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Screenshots](#screenshots)
-- [Live Demo](#live-demo)
-- [Future Improvements](#future-improvements)
-- [Contact](#contact)
-- [License](#license)
+A clean and simple portfolio website for **Jay Platon**, showcasing skills in web development, programming, and UI/UX design.
 
 ---
 
-## 👋 About Me
+## About
 
-Hello! I'm **Jay Platon**, an aspiring full-stack web developer and programmer currently studying at **AMA Computer College**. I'm passionate about creating clean, efficient code and designing intuitive user interfaces. 
+I am a dedicated web developer and programmer studying at **AMA Computer College**. I build responsive websites, create user-friendly interfaces, and solve problems using programming languages like **C, C++, Java, JavaScript, and PHP**.
 
-I specialize in:
-- **Front-End Development** - Building responsive and interactive web applications
-- **Web Design** - Creating modern, user-centered interface designs
-- **Programming** - Solving problems with C, C++, Java, and JavaScript
-- **UI/UX Design** - Prototyping and designing with Figma
-
-With a strong foundation in both design and development, I create web solutions that are not only functional but also visually appealing and user-friendly.
+### What I do
+- Front-end web development with **HTML, CSS, and JavaScript**
+- UI/UX design and prototyping with **Figma**
+- Dynamic web apps using **PHP**
+- Programming solutions using **C, C++, and Java**
 
 ---
 
-## 🛠️ Skills
+## Skills
 
-### Programming Languages
-- **C** - Object-oriented concepts and algorithms
-- **C++** - Advanced OOP and systems programming
-- **Java** - Enterprise applications and design patterns
-- **JavaScript** - Client-side scripting and interactivity
-- **PHP** - Server-side web development and databases
-
-### Web Development
-- **HTML5** - Semantic markup and accessibility
-- **CSS3** - Modern layouts (Flexbox, CSS Grid) and animations
-- **JavaScript** - DOM manipulation, ES6+, and event handling
-- **Front-End Development** - Responsive design and progressive enhancement
-
-### Tools & Design
-- **Figma** - UI/UX prototyping, wireframing, and design systems
-- **Git/GitHub** - Version control and collaboration
-- **VS Code** - Advanced code editor and debugging
-- **Basic UI/UX Design** - User research, wireframing, prototyping
+- **HTML**
+- **CSS**
+- **JavaScript**
+- **PHP**
+- **C**
+- **C++**
+- **Java**
+- **Figma**
+- **UI/UX Design**
+- **Front-End Development**
 
 ---
 
-## 💼 Services
+## Services
 
-I offer the following services to businesses and individuals:
-
-### 1. **Front-End Web Development**
-Building responsive and user-friendly websites using HTML, CSS, and JavaScript. From landing pages to complex web applications, I deliver clean, performant code.
-
-### 2. **UI/UX Design**
-Creating wireframes, prototypes, and modern interface designs using Figma. I focus on user-centered design principles to ensure optimal user experience.
-
-### 3. **JavaScript Development**
-Developing interactive and dynamic web features for enhanced user experience. Building single-page applications (SPAs) and reusable components.
-
-### 4. **PHP Web Development**
-Building dynamic websites, CRUD systems, and database-integrated web applications with server-side logic and data persistence.
-
-### 5. **Programming Solutions**
-Developing applications and projects using C, C++, Java, and JavaScript to solve complex problems and automate tasks.
-
-### 6. **Website Maintenance & Optimization**
-Fixing bugs, updating content, and improving website performance and responsiveness. Regular maintenance ensures your site stays secure and fast.
+- Front-End Web Development
+- UI/UX Design
+- JavaScript Development
+- PHP Web Development
+- Programming Solutions
+- Website Maintenance & Optimization
 
 ---
 
-## ✨ Features
+## Project Highlights
 
-- ✅ **Responsive Design** - Mobile-first approach with breakpoints for all devices (500px - 1850px+)
-- ✅ **Modern User Interface** - Clean, professional design with smooth animations
-- ✅ **Project Showcase** - Detailed project cards with links to live demos and repositories
-- ✅ **Services Section** - Clear description of services offered
-- ✅ **Contact Form** - Easy-to-use contact form for client inquiries
-- ✅ **Mobile-Friendly Layout** - Hamburger menu for navigation on mobile devices
-- ✅ **Performance Optimized** - Fast load times with optimized assets
-- ✅ **Accessibility** - Semantic HTML, ARIA labels, and keyboard navigation
-- ✅ **SEO Friendly** - Proper meta tags, structured data, and semantic markup
-- ✅ **Social Media Links** - Direct links to GitHub, LinkedIn, and Facebook profiles
+- **Calculator** — Simple web calculator with arithmetic operations
+- **E-voting System** — Secure electronic voting interface
+- **Capstone Website** — Responsive web project with project details
+- **Arduino App Project** — UI integration for device control
 
 ---
 
-## 🔧 Technologies Used
+## Installation
 
-### Frontend
-- **HTML5** - Semantic markup structure
-- **CSS3** - Modern styling with CSS Variables and Grid/Flexbox
-- **JavaScript (ES6+)** - Interactive functionality and DOM manipulation
-- **Boxicons** - Beautiful icon library for UI elements
-- **Google Fonts** - Custom typography (Rubik font family)
+```bash
+git clone https://github.com/JayRhuuu/MyPortfolio.git
+cd MyPortfolio
+npm install
+npm run dev
+```
 
-### Development Tools
-- **npm** - Package management
-- **Live Server** - Local development server with live reload
-- **Git** - Version control system
-- **GitHub Pages** - Static site hosting
+---
 
-### Browser Support
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (Safari iOS, Chrome Android)
+## Usage
+
+Open the site locally using the development server and navigate the sections:
+- Home
+- About
+- Services
+- Projects
+- Contacts
+
+---
+
+## Contact
+
+Reach me at:
+- **Email:** [jayrhuelplaton22@gmail.com](mailto:jayrhuelplaton22@gmail.com)
+- **GitHub:** [github.com/JayRhuuu](https://github.com/JayRhuuu)
+- **LinkedIn:** [linkedin.com/in/jay-platon](https://www.linkedin.com/in/jay-platon)
+
+---
+
+## Project Structure
+
+```
+MyPortfolio/
+├── index.html
+├── assets/
+│   ├── css/style.css
+│   ├── js/script.js
+│   ├── img/my-Img.png
+│   ├── img/about-Img.jpg
+│   └── docs/CV.pdf
+├── package.json
+├── README.md
+├── LICENSE
+├── .gitignore
+└── IMPROVEMENTS.md
+```
+
+---
+
+## License
+
+MIT License
 
 ---
 
