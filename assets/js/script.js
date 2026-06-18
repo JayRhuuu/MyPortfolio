@@ -84,6 +84,11 @@ document.addEventListener("DOMContentLoaded", () => {
     contactForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      // Prevent double submission
+      const submitButton = contactForm.querySelector("button[type='submit']");
+      if (submitButton.disabled) return;
+      submitButton.disabled = true;
+
       const formData = {
         name: sanitizeInput(contactName.value),
         email: sanitizeInput(contactEmail.value),
@@ -92,12 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!formData.name || !formData.email || !formData.message) {
         alert("Please fill in all fields.");
+        submitButton.disabled = false;
         return;
       }
 
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(formData.email)) {
         alert("Please enter a valid email address.");
+        submitButton.disabled = false;
         return;
       }
 
@@ -122,13 +129,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
           alert("Message sent successfully! Thank you for reaching out.");
           contactForm.reset();
+          submitButton.disabled = false;
           return;
         } catch (error) {
           console.error("EmailJS error:", error);
           alert("Unable to send the message via EmailJS. Falling back to email client.");
+          submitButton.disabled = false;
         }
       }
 
+      // Fallback to mailto
       const mailtoBody = `${formData.message}%0A%0A---%0A${encodeURIComponent(securityNote)}%0A%0AFrom:%20${encodeURIComponent(
         formData.email
       )}`;
@@ -137,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
       )}&body=${mailtoBody}`;
 
       window.location.href = mailtoLink;
-      contactForm.reset();
     });
   }
 });
