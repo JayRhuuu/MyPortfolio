@@ -1,8 +1,29 @@
 {
-  "name": "myportfolio",
-  "version": "1.0.0",
+  "name": "jay-platon-portfolio",
+  "version": "2.0.0",
+  "description": "Professional portfolio website of Jay Platon - Full-Stack Web Developer showcasing projects, skills, and services.",
+  "author": "Jay Platon <jayrhuelplaton22@gmail.com>",
+  "homepage": "https://jayrhuuu.github.io/MyPortfolio/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JayRhuuu/MyPortfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "web-developer",
+    "front-end",
+    "ui-ux-design",
+    "javascript",
+    "php",
+    "html",
+    "css"
+  ],
+  "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "npx live-server --open=./index.html --port=3000"
-  }
+    "dev": "npx live-server --open=./index.html --port=3000",
+    "start": "npx live-server --open=./index.html --port=3000"
+  },
+  "devDependencies": {}
 }
+
