@@ -65,9 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Contact form submission handler
-  const EMAILJS_USER_ID = "YOUR_EMAILJS_USER_ID";
-  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+  const EMAILJS_USER_ID = "X5bLslep9g2_X_vfu";
+  const EMAILJS_SERVICE_ID = "service_om6jz9t";
+  const EMAILJS_TEMPLATE_ID = "template_u4wp8ep";
 
   if (typeof emailjs !== "undefined" && EMAILJS_USER_ID !== "YOUR_EMAILJS_USER_ID") {
     emailjs.init(EMAILJS_USER_ID);
