@@ -71,6 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (typeof emailjs !== "undefined" && EMAILJS_USER_ID !== "YOUR_EMAILJS_USER_ID") {
     emailjs.init(EMAILJS_USER_ID);
+    console.log("✓ EmailJS initialized with User ID:", EMAILJS_USER_ID);
+  } else {
+    console.warn("⚠ EmailJS not loaded or credentials missing");
   }
 
   const sanitizeInput = (value) =>
@@ -116,9 +119,13 @@ document.addEventListener("DOMContentLoaded", () => {
         EMAILJS_TEMPLATE_ID !== "YOUR_TEMPLATE_ID" &&
         EMAILJS_USER_ID !== "YOUR_EMAILJS_USER_ID";
 
+      console.log("📤 EmailJS Available:", emailjsAvailable);
+      console.log("📋 Form Data:", { name: formData.name, email: formData.email });
+
       if (emailjsAvailable) {
         try {
-          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          console.log("🔄 Sending email via EmailJS...");
+          const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
             from_name: formData.name,
             from_email: formData.email,
             message: formData.message,
@@ -127,13 +134,19 @@ document.addEventListener("DOMContentLoaded", () => {
             to_email: "jayrhuelplaton22@gmail.com",
           });
 
+          console.log("✅ Email sent successfully!", response);
           alert("Message sent successfully! Thank you for reaching out.");
           contactForm.reset();
           submitButton.disabled = false;
           return;
         } catch (error) {
-          console.error("EmailJS error:", error);
-          alert("Unable to send the message via EmailJS. Falling back to email client.");
+          console.error("❌ EmailJS Error:", {
+            status: error.status,
+            text: error.text,
+            message: error.message,
+            full: error,
+          });
+          alert(`EmailJS Error: ${error.status || 'Unknown'} - ${error.text || error.message || 'Failed to send'}. Falling back to email client.`);
           submitButton.disabled = false;
         }
       }
