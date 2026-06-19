@@ -24,15 +24,16 @@
   --p-font: 1.1rem;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--bg-color);
   color: var(--text-color);
   overflow-x: hidden;
 }
 
-/* ============================================================
-   HEADER & NAVIGATION
-   ============================================================ */
 header {
   position: fixed;
   top: 0;
@@ -44,7 +45,22 @@ header {
   justify-content: space-between;
   padding: 32px 15%;
   background: transparent;
-  transition: all 0.45s ease;
+  transition: all 0.3s ease;
+}
+
+header.scrolled {
+  background: rgba(31, 31, 33, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+input,
+textarea {
+  user-select: text;
 }
 
 .logo {
@@ -73,6 +89,20 @@ header {
 .navbar a:hover,
 .navbar a.active {
   color: var(--main-color);
+}
+
+.navbar a {
+  position: relative;
+}
+
+.navbar a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: var(--main-color);
 }
 
 .menu-btn {
@@ -150,8 +180,19 @@ section {
 }
 
 .home-img {
+  position: relative;
   width: 630px;
   height: 630px;
+}
+
+.home-img::after {
+  content: "© Jay Platon";
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 14px;
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 .home-img img {
@@ -378,7 +419,9 @@ section.contacts {
   padding: 22px;
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .service-card h3,
@@ -492,6 +535,13 @@ section.contacts {
   color: var(--main-color);
 }
 
+.hidden-bot-field {
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -522,12 +572,13 @@ section.contacts {
 }
 
 .heart {
-  color: #ff6b6b;
+  color: var(--text-light);
   animation: heartbeat 1.5s infinite;
 }
 
 @keyframes heartbeat {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -544,11 +595,11 @@ section.contacts {
   header {
     padding: 15px 8%;
   }
-  
+
   section {
     padding: 0 8%;
   }
-  
+
   .share {
     left: 8%;
   }
@@ -718,20 +769,20 @@ section.contacts {
 
 /* Mobile Medium (850px) */
 @media (max-width: 850px) {
-  .navbar {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    padding: 40px 50px;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 100%;
-    display: flex;
-    flex-direction: column;
-    background: var(--secondary-bg);
-    transition: left 0.3s ease;
-  }
+ .navbar {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  padding: 40px 50px;
+  top: 0;
+  left: 100%;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  background: var(--secondary-bg);
+  transition: all 0.3s ease;
+}
 
   .navbar a {
     display: block;
@@ -741,12 +792,11 @@ section.contacts {
     font-size: 2rem;
     font-weight: 400;
   }
-
-  .navbar.open {
-    left: 0;
-    opacity: 1;
-    transition: left 0.3s ease, opacity 0.3s ease;
-  }
+.navbar.open {
+  left: 0;
+  opacity: 1;
+  pointer-events: auto;
+}
 
   .menu-btn {
     display: flex;
@@ -882,5 +932,3 @@ section.contacts {
     font-size: 0.95rem;
   }
 }
-
-  

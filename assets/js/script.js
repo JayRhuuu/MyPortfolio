@@ -1,167 +1,224 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const menuIcon = document.getElementById("menu-icon");
-  const navbar = document.querySelector(".navbar");
-  const navLinks = document.querySelectorAll(".navbar a[href^='#']");
-  const sections = Array.from(navLinks)
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter((section) => section instanceof HTMLElement);
+// ==========================================
+// EMAILJS CONFIG
+// ==========================================
+const EMAILJS_PUBLIC_KEY = "X5bLslep9g2_X_vfu";
+const EMAILJS_SERVICE_ID = "service_om6jz9t";
+const EMAILJS_TEMPLATE_ID = "template_u4wp8ep";
 
-  const contactName = document.getElementById("name");
-  const contactEmail = document.getElementById("email");
-  const contactMessage = document.getElementById("message");
-
-  // Update active navigation link
-  const updateActiveLink = (activeId) => {
-    navLinks.forEach((navLink) => {
-      if (navLink.getAttribute("href") === activeId) {
-        navLink.classList.add("active");
-      } else {
-        navLink.classList.remove("active");
-      }
-    });
-  };
-
-  // Toggle mobile navbar
-  menuIcon?.addEventListener("click", () => {
-    menuIcon.classList.toggle("bx-x");
-    navbar?.classList.toggle("open");
+if (typeof emailjs !== "undefined") {
+  emailjs.init({
+    publicKey: EMAILJS_PUBLIC_KEY,
   });
+}
 
-  // Handle navigation link clicks with smooth scrolling
-  navLinks.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const targetId = link.getAttribute("href");
-      if (!targetId || targetId === "#" || targetId.length === 1) {
-        return;
-      }
+// ==========================================
+// BASIC SECURITY
+// ==========================================
 
-      const targetElement = document.querySelector(targetId);
-      if (!targetElement) {
-        return;
-      }
+// // Disable right click
+document.addEventListener("contextmenu", (e) => e.preventDefault());
 
-      event.preventDefault();
-      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
-      navbar?.classList.remove("open");
-      menuIcon?.classList.remove("bx-x");
-      updateActiveLink(targetId);
-    });
+// Disable common inspect shortcuts
+// document.addEventListener("keydown", function (e) {
+//   if (
+//     e.key === "F12" ||
+//     (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key)) ||
+//     (e.ctrlKey && e.key.toLowerCase() === "u")
+//   ) {
+//     e.preventDefault();
+//   }
+// });
+
+// ==========================================
+// SANITIZER
+// ==========================================
+function sanitizeInput(value) {
+  const div = document.createElement("div");
+  div.innerText = value;
+  return div.innerHTML.trim();
+}
+
+// ==========================================
+// RATE LIMITER
+// ==========================================
+const LAST_SUBMIT_KEY = "portfolio_last_submit";
+let lastSubmitTime =
+  Number(localStorage.getItem(LAST_SUBMIT_KEY)) || 0;
+
+// ==========================================
+// NAVIGATION SYSTEM
+// ==========================================
+const menu = document.querySelector(".navbar");
+const menuBtn = document.querySelector("#menu-icon");
+const navLinks = document.querySelectorAll(".navbar a");
+const sections = document.querySelectorAll("section");
+
+// Toggle mobile navbar
+if (menu && menuBtn) {
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("open");
   });
+}
 
-  // Update active link based on scroll position (Intersection Observer)
-  if (sections.length > 0 && "IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
-            updateActiveLink(`#${entry.target.id}`);
+// Handle navigation clicks + smooth scroll
+navLinks.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const targetId = link.getAttribute("href");
+    const targetSection = document.querySelector(targetId);
+
+    if (targetSection) {
+      targetSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+
+    // Close mobile menu after click
+    if (menu.classList.contains("open")) {
+      menu.classList.remove("open");
+    }
+  });
+});
+
+// ==========================================
+// ACTIVE NAV LINK ON SCROLL
+// ==========================================
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const currentId = entry.target.getAttribute("id");
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+
+          if (link.getAttribute("href") === `#${currentId}`) {
+            link.classList.add("active");
           }
         });
-      },
-      { root: null, threshold: [0.35] }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-  }
-
-  // Contact form submission handler
-  const EMAILJS_USER_ID = "X5bLslep9g2_X_vfu";
-  const EMAILJS_SERVICE_ID = "service_om6jz9t";
-  const EMAILJS_TEMPLATE_ID = "template_u4wp8ep";
-
-  if (typeof emailjs !== "undefined" && EMAILJS_USER_ID !== "YOUR_EMAILJS_USER_ID") {
-    emailjs.init(EMAILJS_USER_ID);
-    console.log("✓ EmailJS initialized with User ID:", EMAILJS_USER_ID);
-  } else {
-    console.warn("⚠ EmailJS not loaded or credentials missing");
-  }
-
-  const sanitizeInput = (value) =>
-    value
-      .replace(/<[^>]*>/g, "")
-      .replace(/[\u0000-\u001F\u007F]/g, "")
-      .trim();
-
-  const contactForm = document.getElementById("contact-form");
-  if (contactForm && contactName && contactEmail && contactMessage) {
-    contactForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      // Prevent double submission
-      const submitButton = contactForm.querySelector("button[type='submit']");
-      if (submitButton.disabled) return;
-      submitButton.disabled = true;
-
-      const formData = {
-        name: sanitizeInput(contactName.value),
-        email: sanitizeInput(contactEmail.value),
-        message: sanitizeInput(contactMessage.value),
-      };
-
-      if (!formData.name || !formData.email || !formData.message) {
-        alert("Please fill in all fields.");
-        submitButton.disabled = false;
-        return;
       }
-
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(formData.email)) {
-        alert("Please enter a valid email address.");
-        submitButton.disabled = false;
-        return;
-      }
-
-      const securityNote =
-        "This message was submitted via the portfolio contact form. Do not share sensitive credentials in replies.";
-
-      const emailjsAvailable = typeof emailjs !== "undefined" &&
-        EMAILJS_SERVICE_ID !== "YOUR_SERVICE_ID" &&
-        EMAILJS_TEMPLATE_ID !== "YOUR_TEMPLATE_ID" &&
-        EMAILJS_USER_ID !== "YOUR_EMAILJS_USER_ID";
-
-      console.log("📤 EmailJS Available:", emailjsAvailable);
-      console.log("📋 Form Data:", { name: formData.name, email: formData.email });
-
-      if (emailjsAvailable) {
-        try {
-          console.log("🔄 Sending email via EmailJS...");
-          const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-            from_name: formData.name,
-            from_email: formData.email,
-            message: formData.message,
-            security_note: securityNote,
-            reply_to: formData.email,
-            to_email: "jayrhuelplaton22@gmail.com",
-          });
-
-          console.log("✅ Email sent successfully!", response);
-          alert("Message sent successfully! Thank you for reaching out.");
-          contactForm.reset();
-          submitButton.disabled = false;
-          return;
-        } catch (error) {
-          console.error("❌ EmailJS Error:", {
-            status: error.status,
-            text: error.text,
-            message: error.message,
-            full: error,
-          });
-          alert(`EmailJS Error: ${error.status || 'Unknown'} - ${error.text || error.message || 'Failed to send'}. Falling back to email client.`);
-          submitButton.disabled = false;
-        }
-      }
-
-      // Fallback to mailto
-      const mailtoBody = `${formData.message}%0A%0A---%0A${encodeURIComponent(securityNote)}%0A%0AFrom:%20${encodeURIComponent(
-        formData.email
-      )}`;
-      const mailtoLink = `mailto:jayrhuelplaton22@gmail.com?subject=Portfolio Contact from ${encodeURIComponent(
-        formData.name
-      )}&body=${mailtoBody}`;
-
-      window.location.href = mailtoLink;
     });
+  },
+  {
+    threshold: 0.4,
+  }
+);
+
+sections.forEach((section) => observer.observe(section));
+
+// Close menu when clicking outside
+document.addEventListener("click", (e) => {
+  if (
+    menu &&
+    menu.classList.contains("open") &&
+    !menu.contains(e.target) &&
+    !menuBtn.contains(e.target)
+  ) {
+    menu.classList.remove("open");
   }
 });
 
-  
+// ==========================================
+// CONTACT FORM
+// ==========================================
+const contactForm = document.getElementById("contact-form");
+const contactName = document.getElementById("name");
+const contactEmail = document.getElementById("email");
+const contactMessage = document.getElementById("message");
+const honeypot = document.getElementById("website");
+
+if (contactForm && contactName && contactEmail && contactMessage) {
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const submitButton = contactForm.querySelector(
+      "button[type='submit']"
+    );
+
+    if (!submitButton || submitButton.disabled) return;
+
+    // Honeypot anti-bot
+    if (honeypot && honeypot.value !== "") {
+      console.warn("Bot detected");
+      return;
+    }
+
+    // Rate limit (30 sec)
+    const now = Date.now();
+
+    if (now - lastSubmitTime < 30000) {
+      alert("Please wait 30 seconds before sending another message.");
+      return;
+    }
+
+    lastSubmitTime = now;
+    localStorage.setItem(LAST_SUBMIT_KEY, now.toString());
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+
+    const formData = {
+      name: sanitizeInput(contactName.value),
+      email: sanitizeInput(contactEmail.value),
+      message: sanitizeInput(contactMessage.value),
+    };
+
+    // Validation
+    if (!formData.name || !formData.email || !formData.message) {
+      alert("Please fill in all fields.");
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+      return;
+    }
+
+    if (formData.name.length > 100) {
+      alert("Name too long.");
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+      return;
+    }
+
+    if (formData.message.length > 1000) {
+      alert("Message too long.");
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(formData.email)) {
+      alert("Invalid email.");
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+      return;
+    }
+
+    try {
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          reply_to: formData.email,
+        }
+      );
+
+      console.log("Email sent:", response);
+      alert("Message sent successfully!");
+      contactForm.reset();
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      alert("Unable to send message.");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+    }
+  });
+}
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
